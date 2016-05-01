@@ -1,0 +1,91 @@
+.TH DUPMERGE 1
+.SH NAME
+dupmerge \- find duplicate files and replace with hard links
+.SH SYNOPSIS
+.B dupmerge [-0] [-z] [-s] [-n] [-q] [-f] [-t threshold]
+
+.SH DESCRIPTION
+Read a list of path names from standard input and
+look for duplicate contents.
+When two or more copies are found, the one with the oldest modification 
+time is kept and the 
+other path names are recreated as hard links to the remaining copy, 
+freeing up the space formerly occupied by the duplicates.
+
+.SH OPTIONS
+.TP
+\fB\-0\fR
+This option specifies that each file path name is
+terminated with a null. (Use find's -print0 option to generate such a 
+list.) By default, either a newline or a null will terminate a path name.
+
+.TP
+\fB\-z\fR
+By default, empty files are ignored. They are often used as locks and
+their inode information (owner, time, etc) is considered significant.
+Disturbing them could cause problems. Besides, empty files have no
+assigned blocks so there's not much to be gained by deleting them
+(other than the inode entry, of course). This option causes
+zero-length files to be processed like all other files; since all
+zero-length files have identical contents, they will all be linked
+together.
+
+.TP
+\fB\-s\fR
+Sort the list of files by increasing size so that the smallest files
+will be compared first.
+By default, the list of files is sorted by decreasing size
+and the largest files are examined first.
+
+.TP
+\fB\-n\fR
+Conduct a dry run.
+Dupmerge appears to operate normally without actually
+unlinking or relinking any files.
+
+.TP
+\fB\-q\fR
+Suppress the usual progress messages, including the unlink/link commands for each
+duplicate file. Error messages are still displayed. This flag is forced 
+off by the -n flag.
+
+.TP
+\fB\-f\fR
+Enable a shortcut comparison heuristic: 
+a pair of files with the same 
+basename (the part of the path name after the last '/'), the same size,
+and exactly the same modification timestamp will be considered identical without 
+actually comparing their contents.
+
+.TP
+\fB\-t <threshold>\fR
+Set the file size threshold below which files are still compared by
+their hash values even when the \fB-f\fR option is set.
+The default is 100,000 bytes.
+
+.SH NOTES
+After culling all non-ordinary files from the input list,
+dupmerge sorts the list of ordinary files by size.
+Ignoring excess hard links and files with unique sizes,
+dupmerge takes the SHA-1 hash of each member of a group of two or more
+distinct files of the same size
+and compares the hashes to detect duplicates.
+The hash operation reads each file in one large operation and caches
+the result, so performance can be substantially better than
+direct comparison of file pairs with frequent disk seeking between
+the two.
+
+.SH OUTPUT
+Unless turned off with the \fB\-q\fR option, dupmerge lists every
+duplicate file plus various statistics, such as
+the number and types of files,
+the number of disk blocks reclaimed from duplicates,
+the number of first-page and complete-file hash function computations,
+the number of hash "hits" (references to hash values that have already 
+been computed),
+and the number of same-size file pairs whose first page hashes match but
+differ in their full-file hashes.
+
+.SH AUTHOR
+Phil Karn, KA9Q
+  
