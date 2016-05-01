@@ -45,6 +45,10 @@
  * March 2009: the sort comparison function looks at the first page of each file when they're the same size.
  * This greatly reduces the number of comparisons done after the sort.
  *
+ * May 2016: added command line for compilation. Make sure you have openssl headers installed (devel package)
+ *
+ * gcc -lssl -lcrypto -o dupmerge dupmerge.c
+ * 
  * Copyright Phil Karn, karn@ka9q.net. May be used under the terms of the GNU General Public License v 2.0
  *
  * $Id: dupmerge.c,v 0.22 2010/05/09 12:51:02 karn Exp karn $
