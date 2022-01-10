@@ -40,10 +40,16 @@ Make sure you have openssl library and headers installed.  On Redhat-based syste
 $ sudo yum install openssl openssl-devel
 ```
 
+On Debian-based systems:
+
+```bash
+$ sudo apt install libssl-dev
+```
+
 Then to compile, type:
 
 ```bash
-$ gcc -O3 -fexpensive-optimizations -o dupmerge2 dupmerge.c -lssl -lcrypto
+$ gcc -O3 -fexpensive-optimizations -o dupmerge dupmerge.c -lssl -lcrypto
 ```
 
 Move the binary to an appropriate location ```/usr/local/bin``` is sensible.

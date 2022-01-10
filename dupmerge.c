@@ -50,7 +50,7 @@
  * January 2022: updated command line for compilation. Make sure you have openssl headers installed (devel package)
  *
  * https://stackoverflow.com/a/22988405
- * gcc -O3 -fexpensive-optimizations -o dupmerge2 dupmerge.c -lssl -lcrypto
+ * gcc -O3 -fexpensive-optimizations -o dupmerge dupmerge.c -lssl -lcrypto
  * 
  * Copyright Phil Karn, karn@ka9q.net. May be used under the terms of the GNU General Public License v 2.0
  *
