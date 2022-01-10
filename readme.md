@@ -43,7 +43,7 @@ $ sudo yum install openssl openssl-devel
 Then to compile, type:
 
 ```bash
-$ gcc -lssl -lcrypto -o dupmerge dupmerge.c
+$ gcc -O3 -fexpensive-optimizations -o dupmerge2 dupmerge.c -lssl -lcrypto
 ```
 
 Move the binary to an appropriate location ```/usr/local/bin``` is sensible.
